@@ -1,0 +1,112 @@
+from turtle import *
+def hangman ():
+    left(180)
+    circle(50,540)
+    right(90)
+    for k in range (1,3):
+        forward(25*k)
+        left(45)
+        forward(55)
+        backward(55)
+        right(90)
+        forward(55)
+        backward(55)
+        left(45)
+def galgen (n):
+    left (90)
+    circle(100,180)
+    left(90)
+    penup()
+    forward(200)
+    pendown ()
+    left (90)
+    circle(100,90)
+    right(90)
+    for k in range (3,n-1,-1): #Hier wird der Teil des Galgen in Abhängigkeit zu den Fehlversuchen gezeigt
+        forward(100*k)
+        right(90)
+    right (90)
+def win ():
+    reset ()
+    speed (0)
+    penup()
+    goto(0,130)
+    pendown()
+    hangman()
+    penup()
+    goto(-100,-130)
+    pendown()
+    write("GEWONNEN",font=("Verdana",20, "normal"))
+def loss (versuche):
+    reset ()
+    speed (0)
+    penup ()
+    goto (0,-100)
+    pendown()
+    galgen (versuche)
+    if versuche == 0:
+        hangman()
+        penup()
+        goto(-100,-130)
+        pendown()
+        write("VERLOHREN",font=("Verdana",20, "normal"))
+def ph (l):                                
+    print("-"*l) #Dies ist ein zeichnet einen Platzhalter, es wird eine Reihe von Strichen gezeichnet
+def eingabe ():  #Dieses Programm dient zum Erfassen des zu suchenden Worts
+    wort = input("Bitte geben sie das zu suchende Wort ein: ")
+    wortliste = []
+    for n in range (len(wort)):
+        wortliste.append(wort[n]) #Hier wird das Wort in eine Liste eingetragen
+    return wortliste #Diese Liste wird zurückgeführt
+def abfrage (wortliste,versuche): #Dies ist der Hauptteil des Programms, es wird nach Buchstaben gefragt und überprüft, ob sie in der Liste vorkommen
+    unpass = [] #Diese Liste sammelt alle Buchstaben, die ausprobiert wurden, aber falsch waren
+    passend = [] #Diese Liste sammelt alle Buchstaben, die ausprobiert wurden, und richtig waren
+    for k in range (len(wortliste)): #Es wird die Liste "passend" so gestaltet, dass es eine Liste mit so vielen, leeren Stellen, ist, wie die Liste des Worts
+        passend.append("")
+    testright = 0 #Dies ist eine Variable, die später genutzt wird um zu überprüfen, ob das Wort bereits erraten wurde
+    for n in range  (versuche,-1,-1): #Eine Zählschleife erlaubt die Nutzung von Fehlversuchen
+        o = 0 #Dies ist eine Variable, die später genutzt wird um zu überprüfen, ob der überprüfte Buchstabe in der Wortliste vorhanden ist
+        while o == 0 and testright == 0: #Diese Schleife wird so lange wiederholt, bis entweder ein falscher Buchstabe überprüft wurde, oder das Wort gefunden wurde
+            oo = 0 #Diese Variable wird später genutzt, wenn ein falscher Buchstabe überprüft wurde
+            for k in range (3): #Es wird ein Platzhalter geprintet, damit es in der Shell geordnetet wirkt
+                print (" ")
+            print ("Fehlversuche",n,"/ 4",":") #Es wird die Anzahl an Fehlversuchen angezeigt, die noch vorhanden sind
+            print ("Bereits richtige Buchstaben",passend) #Es werden alle bereits richtigen Buchstaben, in passender Reihenfolge angezeigt
+            print ("Bereits falsche Buchstaben",unpass) #Es werden alle bereits falschen Buchstaben angezeigt
+            test = input("Welcher Buchstabe soll getestet werden? ") #Es wird nach dem zu überprüfenden Buchstaben gefragt
+            for k in range (len(wortliste)): #Für jedes Listenelement wird die selbe Abfrage durchgeführt
+                for m in range (-32,33,32): #Hier wird ASCII genutzt um, trotz Klein/Großschreibung (in beide Richtungen) den richtigen Buchstaben zu überprüfen
+                    if chr(m+ord(test))  == wortliste[k]:  #Es wird nun getestet
+                        passend[k] = chr(m+ord(test)) #Falls der Buchstabe vorkommt, wird der list "passend" an der passenden Stelle der Buchstabe eingefügt
+                        oo = 1 #Hier wird "oo" genutzt, um klarzustellen, dass der Buchstabe richtig war
+            if oo == 0: #Falls der Buchstabe nicht richtig war wird hier nun eine Sequenz abgespielt um einen Fehler darzustellen. Dies ist außerhalb der Schleife, da sind mehrmals für den gleichen Fehler gehandelt würde
+                loss (n) #Das Unterprogramm zum Zeichnen des Galgens wird gestartet, abhängig von den verbleibenden Fehlversuchen
+                unpass.append(test) #Der Liste "unpass" wird der fehlerhafte Buchstabe hinzugefügt
+                o = 1 #Diese Änderung zeigt der Schleife, dass ein falscher Buchstabe eingegeben wurde und sie n verrändert
+            if wortliste == passend: #Es wird getestet, ob das richtige Wort gefunden wurde
+                testright = 1 ##Diese Änderung zeigt der Schleife, dass sie nichts mehr machen soll
+    if testright ==  0:   #Es wird überprüft, ob nach dem Beenden der Schleife das Wort gefunden wurde
+        print (" ")
+        print ("VERLOREN")
+        aus = ""
+        for k in wortliste: #Es wird eine String erstellt, in ihr wird das Wort, vom Anfang stehen
+            aus = aus+k 
+        print ("Das Wort war",aus)
+    elif testright ==  1:
+        win () #Es wird ein glückliches Männchen gezeichnet
+        print (" ")
+        print ("GEWONNEN")
+        aus = ""
+        for k in wortliste:
+            aus = aus+k
+        print ("Das Wort war",aus)  
+def spiel ():
+    u = eingabe() #Diese Zwischenzeile wird genutzt um die richtige Reihenfolge einzuhalten
+    ph (60)
+    for k in range (30):
+        print (" ")
+    abfrage (u,4)
+    done()
+
+
+spiel ()
