@@ -1,0 +1,2 @@
+from Hangman_script import *
+spiel ()
