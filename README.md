@@ -1,7 +1,8 @@
 # Hangman
 Dies ist ein simples Galgenmännchen-Spiel, das mit Python programmiert wurde
 
-Falls ihr das Spiel spielen wollt, öffnet einfach die Datei "Hangman" in Thonny oä.
+Falls ihr das Spiel spielen wollt müsst ihr zuerst die Dateinen dowloaden und im gleichen Ordner speichern, 
+öffnet dann einfach die Datei "Hangman" in Thonny oä.
 
 Zum Ausführen einfach F5 drücken.
 
