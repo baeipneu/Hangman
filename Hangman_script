@@ -49,7 +49,7 @@ def loss (versuche):
         penup()
         goto(-100,-130)
         pendown()
-        write("VERLOHREN",font=("Verdana",20, "normal"))
+        write("VERLOREN",font=("Verdana",20, "normal"))
 def ph (l):                                
     print("-"*l) #Dies ist ein zeichnet einen Platzhalter, es wird eine Reihe von Strichen gezeichnet
 def eingabe ():  #Dieses Programm dient zum Erfassen des zu suchenden Worts
